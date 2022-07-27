@@ -34,7 +34,10 @@ export function setTotalPages(totalPages: number): PostsAction {
 }
 
 export function sortPosts(field: string): PostsAction {
-  return { type: PostsActionTypes.SORT_POSTS, payload: field };
+  return {
+    type: PostsActionTypes.SORT_POSTS,
+    payload: field,
+  };
 }
 
 export function setQuery(query: string): PostsAction {

@@ -24,8 +24,14 @@ const App: React.FC = () => {
   const history = useNavigate();
 
   const searchedAndSortedPosts = useMemo(() => {
+    let dynamicKey = sortField as keyof typeof order;
     const searchedItems = searchItem(posts, query);
-    const searchedAndSortedItems = SortItems(searchedItems, sortField, order);
+    const searchedAndSortedItems = SortItems(
+      searchedItems,
+      sortField,
+      order[dynamicKey]
+    );
+
     return searchedAndSortedItems;
   }, [query, sortField, posts, order]);
 

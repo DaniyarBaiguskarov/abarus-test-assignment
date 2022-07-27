@@ -7,7 +7,11 @@ export interface PostsState {
   limit: number;
   query: string;
   sortField: string;
-  order: boolean;
+  order: {
+    id: boolean;
+    title: boolean;
+    body: boolean;
+  };
 }
 
 export interface PostItem {
@@ -51,6 +55,7 @@ interface SetTotalPages {
   type: PostsActionTypes.SET_TOTAL_PAGES;
   payload: number;
 }
+
 interface SortPosts {
   type: PostsActionTypes.SORT_POSTS;
   payload: string;

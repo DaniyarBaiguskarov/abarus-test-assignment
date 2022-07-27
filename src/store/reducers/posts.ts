@@ -9,8 +9,17 @@ const initialState: PostsState = {
   totalPages: 1,
   query: "",
   sortField: "",
-  order: true,
+  order: { id: true, title: true, body: true },
 };
+
+class Order {
+  id: boolean = true;
+  title: boolean = true;
+  body: boolean = true;
+  constructor(property: string, current: boolean) {
+    this[property as "id" | "title" | "body"] = !current;
+  }
+}
 
 export const postsReducer = (
   state = initialState,
@@ -28,7 +37,12 @@ export const postsReducer = (
     case PostsActionTypes.SET_TOTAL_PAGES:
       return { ...state, totalPages: action.payload };
     case PostsActionTypes.SORT_POSTS:
-      return { ...state, sortField: action.payload, order: !state.order };
+      let dynamicKey = action.payload as keyof typeof state.order;
+      return {
+        ...state,
+        sortField: action.payload,
+        order: { ...new Order(action.payload, state.order[dynamicKey]) },
+      };
     case PostsActionTypes.SET_QUERY:
       return { ...state, query: action.payload, page: 1 };
     case PostsActionTypes.SET_POSTS:
