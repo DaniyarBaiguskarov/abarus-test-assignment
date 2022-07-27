@@ -1,26 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useMemo } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import PagesList from "./components/PagesList";
+import Searchbar from "./components/Searchbar";
+import Table from "./components/Table";
+import { useActions } from "./hooks/useActions";
+import { useTypedSelector } from "./hooks/useTypedSelector";
+import { searchItem } from "./utils/search";
+import { SortItems } from "./utils/sort";
 
-function App() {
+const App: React.FC = () => {
+  const { page, error, isLoading, posts, limit, totalPages, query, sortField } =
+    useTypedSelector((state) => state.posts);
+  const { fetchPosts, setPostsPage, setQuery, setTotalPages } = useActions();
+  const history = useNavigate();
+
+  const searchedAndSortedPosts = useMemo(() => {
+    const searchedItems = searchItem(posts, query);
+    const searchedAndSortedItems = SortItems(searchedItems, sortField);
+    return searchedAndSortedItems;
+  }, [query, sortField, posts]);
+
+  useEffect(() => {
+    history("/" + page, { replace: false });
+    fetchPosts(limit);
+  }, [page]);
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(searchedAndSortedPosts.length / limit));
+  }, [searchedAndSortedPosts]);
+
+  if (isLoading) {
+    return <h1>Идет загрузка...</h1>;
+  }
+  if (error) {
+    return <h1>{error}</h1>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route
+        path={"/:page"}
+        element={
+          <div className="app">
+            <Searchbar setQuery={setQuery} />
+            <Table items={searchedAndSortedPosts} page={page} />
+            <PagesList
+              totalPages={totalPages}
+              setPostsPage={setPostsPage}
+              currentPage={page}
+            />
+          </div>
+        }
+      ></Route>
+    </Routes>
   );
-}
+};
 
 export default App;
