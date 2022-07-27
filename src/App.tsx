@@ -23,6 +23,10 @@ const App: React.FC = () => {
   useEffect(() => {
     history("/" + page, { replace: false });
     fetchPosts(limit);
+  }, []);
+
+  useEffect(() => {
+    history("/" + page, { replace: false });
   }, [page]);
 
   useEffect(() => {

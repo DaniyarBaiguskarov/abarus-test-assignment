@@ -24,6 +24,7 @@ export enum PostsActionTypes {
   SET_QUERY = "SET_QUERY",
   SET_TOTAL_PAGES = "SET_TOTAL_PAGES",
   SORT_POSTS = "SORT_POSTS",
+  SET_POSTS = "SET_POSTS",
 }
 
 interface FetchPostsAction {
@@ -53,6 +54,10 @@ interface SortPosts {
   type: PostsActionTypes.SORT_POSTS;
   payload: string;
 }
+interface SetPosts {
+  type: PostsActionTypes.SET_POSTS;
+  payload: PostItem[];
+}
 
 export type PostsAction =
   | FetchPostsAction
@@ -61,4 +66,5 @@ export type PostsAction =
   | SetPostsPage
   | SetQuery
   | SetTotalPages
-  | SortPosts;
+  | SortPosts
+  | SetPosts;

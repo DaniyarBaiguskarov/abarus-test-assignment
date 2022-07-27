@@ -29,7 +29,7 @@ export const postsReducer = (
     case PostsActionTypes.SORT_POSTS:
       return { ...state, sortField: action.payload };
     case PostsActionTypes.SET_QUERY:
-      return { ...state, query: action.payload };
+      return { ...state, query: action.payload, page: 1 };
     default:
       return state;
   }
