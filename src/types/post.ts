@@ -7,6 +7,7 @@ export interface PostsState {
   limit: number;
   query: string;
   sortField: string;
+  order: boolean;
 }
 
 export interface PostItem {

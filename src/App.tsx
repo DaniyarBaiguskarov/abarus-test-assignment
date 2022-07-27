@@ -9,16 +9,25 @@ import { searchItem } from "./utils/search";
 import { SortItems } from "./utils/sort";
 
 const App: React.FC = () => {
-  const { page, error, isLoading, posts, limit, totalPages, query, sortField } =
-    useTypedSelector((state) => state.posts);
+  const {
+    page,
+    error,
+    isLoading,
+    posts,
+    limit,
+    totalPages,
+    query,
+    sortField,
+    order,
+  } = useTypedSelector((state) => state.posts);
   const { fetchPosts, setPostsPage, setQuery, setTotalPages } = useActions();
   const history = useNavigate();
 
   const searchedAndSortedPosts = useMemo(() => {
     const searchedItems = searchItem(posts, query);
-    const searchedAndSortedItems = SortItems(searchedItems, sortField);
+    const searchedAndSortedItems = SortItems(searchedItems, sortField, order);
     return searchedAndSortedItems;
-  }, [query, sortField, posts]);
+  }, [query, sortField, posts, order]);
 
   useEffect(() => {
     history("/" + page, { replace: false });

@@ -9,6 +9,7 @@ const initialState: PostsState = {
   totalPages: 1,
   query: "",
   sortField: "",
+  order: true,
 };
 
 export const postsReducer = (
@@ -27,9 +28,12 @@ export const postsReducer = (
     case PostsActionTypes.SET_TOTAL_PAGES:
       return { ...state, totalPages: action.payload };
     case PostsActionTypes.SORT_POSTS:
-      return { ...state, sortField: action.payload };
+      return { ...state, sortField: action.payload, order: !state.order };
     case PostsActionTypes.SET_QUERY:
       return { ...state, query: action.payload, page: 1 };
+    case PostsActionTypes.SET_POSTS:
+      return { ...state, posts: action.payload, page: 1 };
+
     default:
       return state;
   }

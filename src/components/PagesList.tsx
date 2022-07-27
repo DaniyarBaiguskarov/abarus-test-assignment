@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 interface PagesListProps {
   totalPages: number;
@@ -13,11 +12,9 @@ const PagesList: React.FC<PagesListProps> = ({
   currentPage,
 }) => {
   const arr = [...Array(totalPages).fill(0)];
-  const history = useNavigate();
 
   const changePage = (e: React.MouseEvent<HTMLDivElement>) => {
     const page = +(e.target as HTMLDivElement).innerHTML;
-    history("/" + page, { replace: false });
     setPostsPage(page);
   };
 
@@ -30,7 +27,6 @@ const PagesList: React.FC<PagesListProps> = ({
             : "pages__button"
         }
         onClick={() => {
-          history("/" + (currentPage - 1), { replace: false });
           setPostsPage(currentPage - 1);
         }}
       >
@@ -58,7 +54,6 @@ const PagesList: React.FC<PagesListProps> = ({
             : "pages__button"
         }
         onClick={() => {
-          history("/" + (currentPage + 1), { replace: false });
           setPostsPage(currentPage + 1);
         }}
       >
